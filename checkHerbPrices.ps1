@@ -1,14 +1,12 @@
+$ProgressPreference = "SilentlyContinue"
 $url = 'https://prices.runescape.wiki/api/v1/osrs/1h'
+$headers = @{'User-Agent'='herb-prices-powershell-script'}
+$numberofHerbsPerSeed = 9.423
+$numberofPatches = 8
 
 try {
-    $herbsFile = Join-Path $PSScriptRoot "herbs.json"
-    $herbs = Get-Content $herbsFile -Raw | ConvertFrom-Json
-
-    # From https://oldschool.runescape.wiki/w/Herb#Farming_herbs
-    $numberofHerbsPerSeed = 9.423 # Assumes magic secateurs and farming cape equipped 
-    $numberofPatches = 8
-
-    $headers = @{'User-Agent'='herb-prices-powershell-script'}
+    $ErrorActionPreference = "Stop"
+    $herbs = Get-Content $(Join-Path $PSScriptRoot "herbs.json") -Raw | ConvertFrom-Json
     $response = Invoke-WebRequest -Uri $url -Method GET -Headers $headers
     $latestPrices = $response.Content | ConvertFrom-Json
 
@@ -23,14 +21,14 @@ try {
         $herb.ExpectedProfit = $herb.ExpectedProfit
     }
 
-    Write-Host
-    Write-Host "Here are the latest herb prices."
+    Write-Host ""
     Write-Host "This table assumes $numberOfHerbsPerSeed herbs harvested per seed."
-
     $herbs = $herbs | Sort-Object -Property ExpectedProfit -Descending
     $herbs | Format-Table Herb, ExpectedProfit, SeedPrice, HerbPrice
+
     Write-Host "If you plant $($herbs[0].Herb) in $numberofPatches patches you can expect " -NoNewLine
     Write-Host "$([int]($herbs[0].ExpectedProfit / 1000) * $numberofPatches)K profit" -ForegroundColor Green
+    Write-Host ""
 
 } catch {
     Write-Error $_
