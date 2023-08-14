@@ -24,10 +24,12 @@ try {
     Write-Host ""
     Write-Host "This table assumes $numberOfHerbsPerSeed herbs harvested per seed."
     $herbs = $herbs | Sort-Object -Property ExpectedProfit -Descending
-    $herbs | Format-Table Herb, ExpectedProfit, SeedPrice, HerbPrice
+    $herbs | Format-Table Herb, ExpectedProfit
 
-    Write-Host "If you plant $($herbs[0].Herb) in $numberofPatches patches you can expect " -NoNewLine
-    Write-Host "$([int]($herbs[0].ExpectedProfit / 1000) * $numberofPatches)K profit" -ForegroundColor Green
+    Write-Host "If you plant " -NoNewline
+    Write-Host "$($herbs[0].Herb) " -NoNewline -ForegroundColor Magenta
+    Write-Host "in $numberofPatches patches you can expect " -NoNewLine
+    Write-Host "$([int]($herbs[0].ExpectedProfit / 1000) * $numberofPatches)K profit" -ForegroundColor Magenta
     Write-Host ""
 
 } catch {
