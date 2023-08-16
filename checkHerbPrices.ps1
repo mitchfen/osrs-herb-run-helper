@@ -2,7 +2,7 @@ $ProgressPreference = "SilentlyContinue"
 $url = 'https://prices.runescape.wiki/api/v1/osrs/1h'
 $headers = @{'User-Agent'='herb-prices-powershell-script'}
 $numberofHerbsPerSeed = 9.423
-$numberofPatches = 8
+$numberofPatches = 9
 
 try {
     $ErrorActionPreference = "Stop"
