@@ -3,6 +3,7 @@ $url = 'https://prices.runescape.wiki/api/v1/osrs/1h'
 $headers = @{'User-Agent'='herb-prices-powershell-script'}
 $numberofHerbsPerSeed = 9.423
 $numberofPatches = 9
+$highlightColor = "Green"
 
 try {
     $ErrorActionPreference = "Stop"
@@ -24,12 +25,19 @@ try {
     Write-Host ""
     Write-Host "This table assumes $numberOfHerbsPerSeed herbs harvested per seed."
     $herbs = $herbs | Sort-Object -Property ExpectedProfit -Descending
-    $herbs | Format-Table Herb, ExpectedProfit
+    $herbs | Format-Table Herb, ExpectedProfit, SeedPrice, HerbPrice
 
     Write-Host "If you plant " -NoNewline
-    Write-Host "$($herbs[0].Herb) " -NoNewline -ForegroundColor Magenta
+    Write-Host "$($herbs[0].Herb) " -NoNewline -ForegroundColor $highlightColor
     Write-Host "in $numberofPatches patches you can expect " -NoNewLine
-    Write-Host "$([int]($herbs[0].ExpectedProfit / 1000) * $numberofPatches)K profit" -ForegroundColor Magenta
+    Write-Host "$([int]($herbs[0].ExpectedProfit / 1000) * $numberofPatches)K profit" -ForegroundColor $highlightColor
+
+    $cost = $numberofPatches * $($herbs[0].SeedPrice)
+    Write-Host "If you plant " -NoNewline
+    Write-Host "$($herbs[0].Herb) " -NoNewline -ForegroundColor $highlightColor
+    Write-Host "in $numberofPatches patches you need to harvest at least " -NoNewLine
+    Write-Host "$([int]($cost / $($herbs[0].HerbPrice))) herbs" -ForegroundColor $highlightColor -NoNewLine
+    Write-Host " to break even."
     Write-Host ""
 
 } catch {
