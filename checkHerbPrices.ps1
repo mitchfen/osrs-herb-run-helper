@@ -22,11 +22,10 @@ try {
         $herb.ExpectedProfit = $herb.ExpectedProfit
     }
 
-    Write-Host ""
-    Write-Host "This table assumes $numberOfHerbsPerSeed herbs harvested per seed."
     $herbs = $herbs | Sort-Object -Property ExpectedProfit -Descending
     $herbs | Format-Table Herb, ExpectedProfit, SeedPrice, HerbPrice
 
+    Write-Host "The above table assumes $numberOfHerbsPerSeed herbs harvested per seed."
     Write-Host "If you plant " -NoNewline
     Write-Host "$($herbs[0].Herb) " -NoNewline -ForegroundColor $highlightColor
     Write-Host "in $numberofPatches patches you can expect " -NoNewLine
