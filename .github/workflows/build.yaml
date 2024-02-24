@@ -7,6 +7,9 @@ on:
     branches:
       - main
 
+env:
+  artifactName: "osrs_herb_run_helper"
+
 jobs:
   Build:
     runs-on: ubuntu-latest
@@ -19,9 +22,9 @@ jobs:
         go-version: '1.22'
 
     - name: Build
-      run: go build -o ${{ github.repository }} -v ./main.go
+      run: go build -o ${{ env.artifactName }} -v ./main.go
 
     - uses: actions/upload-artifact@v4
       with:
-        name: ${{ github.repository }}
-        path: ${{ github.repository }}
+        name: ${{ env.artifactName }}
+        path: ${{ env.artifactName }}
