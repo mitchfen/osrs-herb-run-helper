@@ -1,0 +1,30 @@
+name: Build
+
+on:
+  pull_request:
+    types: [opened, synchronize, reopened]
+  push:
+    branches:
+      - main
+
+env:
+  artifactName: "osrs_herb_run_helper"
+
+jobs:
+  Build:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v4
+
+    - name: Set up Go
+      uses: actions/setup-go@v5
+      with:
+        go-version: '1.22'
+
+    - name: Build
+      run: go build -o ${{ env.artifactName }} -v ./main.go
+
+    - uses: actions/upload-artifact@v4
+      with:
+        name: ${{ env.artifactName }}
+        path: ${{ env.artifactName }}

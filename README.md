@@ -3,4 +3,4 @@ Identifies which herbs are most profitable to farm in Old School RuneScape. It o
 
 This script uses the [RuneScape Wiki API](https://oldschool.runescape.wiki/w/RuneScape:Real-time_Prices).
 
-![a](./herbPriceScreenshot.png)
+![screenshot of program running](./herbPriceScreenshot.png)
