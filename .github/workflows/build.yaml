@@ -22,9 +22,9 @@ jobs:
         go-version: '1.22'
 
     - name: Build
-      run: go build -o ${{ env.artifactName }} -v ./main.go
+      run: go build -o ${{ env.artifactName }}.exe -v ./main.go
 
     - uses: actions/upload-artifact@v4
       with:
         name: ${{ env.artifactName }}
-        path: ${{ env.artifactName }}
+        path: ${{ env.artifactName }}.exe
