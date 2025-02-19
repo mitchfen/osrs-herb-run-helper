@@ -1,7 +1,7 @@
 package main
 
 import (
-	"github.com/mitchfen/osrs_herb_run_helper/internal/helpers"
+	"github.com/mitchfen/osrs-herb-run-helper/internal/helpers"
 )
 
 func main() {

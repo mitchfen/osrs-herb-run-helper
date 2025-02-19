@@ -1,5 +1,5 @@
-module github.com/mitchfen/osrs_herb_run_helper
+module github.com/mitchfen/osrs-herb-run-helper
 
-go 1.23
+go 1.24
 
 require github.com/Jeffail/gabs/v2 v2.7.0
