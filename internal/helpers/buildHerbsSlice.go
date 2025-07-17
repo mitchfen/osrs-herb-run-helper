@@ -19,6 +19,10 @@ type Herb struct {
 	ExpectedProfit float64
 }
 
+func (h Herb) FilterValue() string { return h.Name }
+func (h Herb) Title() string       { return h.Name }
+func (h Herb) Description() string { return fmt.Sprintf("Expected profit: %.2f", h.ExpectedProfit) }
+
 func BuildHerbsSlice(parsedPriceJson *gabs.Container) []Herb {
 
 	Ranarr := &Herb{
