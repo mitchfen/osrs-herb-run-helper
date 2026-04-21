@@ -7,6 +7,14 @@ import (
 	"github.com/Jeffail/gabs/v2"
 )
 
+func getPriceOrZero(parsedPriceJson *gabs.Container, itemId int, priceField string) float64 {
+	value := parsedPriceJson.Search("data", fmt.Sprint(itemId), priceField).Data()
+	if value == nil {
+		return 0
+	}
+	return value.(float64)
+}
+
 const numberofHerbsPerSeed float64 = 9.423 // Assumes farming cape and magic secateurs
 const numberofPatches float64 = 9.0
 
@@ -59,11 +67,11 @@ func BuildHerbsSlice(parsedPriceJson *gabs.Container) []Herb {
 
 	// Fill in the price values for each herb in the array
 	for i := 0; i < len(herbs); i++ {
-		herbHighPrice := parsedPriceJson.Search("data", fmt.Sprint(herbs[i].Id), "avgHighPrice").Data().(float64)
-		herbLowPrice := parsedPriceJson.Search("data", fmt.Sprint(herbs[i].Id), "avgLowPrice").Data().(float64)
+		herbHighPrice := getPriceOrZero(parsedPriceJson, herbs[i].Id, "avgHighPrice")
+		herbLowPrice := getPriceOrZero(parsedPriceJson, herbs[i].Id, "avgLowPrice")
 		herbs[i].HerbPrice = (herbHighPrice + herbLowPrice) / 2
-		seedHighPrice := parsedPriceJson.Search("data", fmt.Sprint(herbs[i].SeedId), "avgHighPrice").Data().(float64)
-		seedLowPrice := parsedPriceJson.Search("data", fmt.Sprint(herbs[i].SeedId), "avgLowPrice").Data().(float64)
+		seedHighPrice := getPriceOrZero(parsedPriceJson, herbs[i].SeedId, "avgHighPrice")
+		seedLowPrice := getPriceOrZero(parsedPriceJson, herbs[i].SeedId, "avgLowPrice")
 		herbs[i].SeedPrice = (seedHighPrice + seedLowPrice) / 2
 		expectedHerbsReturned := numberofHerbsPerSeed * numberofPatches
 		costOfSeeds := float64(herbs[i].SeedPrice) * numberofPatches
